@@ -1,7 +1,6 @@
 from flask import render_template, url_for, redirect, flash, request
 from flask_login import login_user, logout_user
 
-from app.commands import app
 from app.database import db
 from app.models import UserModel
 from app.profiles.forms import SignInForm, RegisterForm
@@ -10,14 +9,22 @@ from app.tools.format_dob import calculate_age, dob_string_to_datetime
 from app.tools.general_crud import create
 from app.tools.nav_link_list import generate_pages
 from app.tools.save_file import save_file
+from flask import Blueprint
+
+auth_blueprint = Blueprint('auth',
+                            __name__,
+                            template_folder='templates'
+                            )
 
 
-@app.route('/pages')
+# server:port/blueprint_prefix/add
+@auth_blueprint.route('/pages')
 def list_pages():
     return render_template('placeholder.html', pages=generate_pages())
 
 
-@app.route('/', methods=['GET', 'POST'])
+# server:port/blueprint_prefix/add
+@auth_blueprint.route('/', methods=['GET', 'POST'])
 def auth():
     form_sign_in = SignInForm()
     form_register = RegisterForm()
@@ -117,12 +124,14 @@ def auth():
     return render_template('auth.html', pages=generate_pages(), form_sign_in=form_sign_in, form_register=form_register)
 
 
-@app.route('/success_register')
+# server:port/blueprint_prefix/add
+@auth_blueprint.route('/success_register')
 def success_register():
     return render_template('success_register.html', pages=generate_pages())
 
 
-@app.route('/logoff')
+# server:port/blueprint_prefix/add
+@auth_blueprint.route('/logoff')
 def logoff():
     logout_user()
     flash('წარმატებით გამოხვედით სისტემიდან', 'alert-green')
