@@ -1,23 +1,30 @@
 from flask import render_template, url_for, redirect, flash, request
 from flask_login import login_user, logout_user
 
-from app.commands import app
 from app.database import db
-from app.models import User
+from app.models import UserModel
 from app.profiles.forms import SignInForm, RegisterForm
 from app.tools.check_auth import check_auth
 from app.tools.format_dob import calculate_age, dob_string_to_datetime
 from app.tools.general_crud import create
 from app.tools.nav_link_list import generate_pages
 from app.tools.save_file import save_file
+from flask import Blueprint
+
+auth_blueprint = Blueprint('auth',
+                            __name__,
+                            template_folder='templates'
+                            )
 
 
-@app.route('/pages')
+# server:port/blueprint_prefix/add
+@auth_blueprint.route('/pages')
 def list_pages():
     return render_template('placeholder.html', pages=generate_pages())
 
 
-@app.route('/', methods=['GET', 'POST'])
+# server:port/blueprint_prefix/add
+@auth_blueprint.route('/', methods=['GET', 'POST'])
 def auth():
     form_sign_in = SignInForm()
     form_register = RegisterForm()
@@ -35,12 +42,12 @@ def auth():
             remember_me = form_sign_in.remember_me.data
 
             # Check if logging in through Email
-            if User.find_by_email(identifier):
-                target_account = User.find_by_email(identifier)
+            if UserModel.find_by_email(identifier):
+                target_account = UserModel.find_by_email(identifier)
 
             # Check if logging in through Username
-            elif User.find_by_username(identifier):
-                target_account = User.find_by_username(identifier)
+            elif UserModel.find_by_username(identifier):
+                target_account = UserModel.find_by_username(identifier)
 
             #  Check Password only if the account was found either through Email or Username
             if target_account:
@@ -83,10 +90,10 @@ def auth():
             password = form_register.password.data
 
             # check if the username and email are unique
-            if User.find_by_username(username):
+            if UserModel.find_by_username(username):
                 success = False
                 flash('იუზერნეიმი დაკავებულია', 'alert-yellow')
-            elif User.find_by_email(email):
+            elif UserModel.find_by_email(email):
                 success = False
                 flash('მეილი დაკავებულია', 'alert-yellow')
 
@@ -99,14 +106,15 @@ def auth():
                     picture_title = save_file(username, picture, 'profile_pictures')  # saves file to directory, returns filename
 
                 # add everything to DB           # needs to be changed
-                received_data = (username, name_first, name_last, email, phone, dob, sex, password, age, picture_title)
-                create(received_data, User)
-                new_user = User(*received_data)
+                role = 3
+                received_data = (username, name_first, name_last, email, phone, dob, sex, password, role, age, picture_title)
+                create(received_data, UserModel)
+                new_user = UserModel(*received_data)
                 db.session.add(new_user)
                 db.session.commit()
 
                 flash('რეგისტრაცია წარმატებით დასრულდა!', 'alert-green')
-                login_user(User.find_by_username(username))
+                login_user(UserModel.find_by_username(username))
 
                 return redirect(url_for('success_register'))
 
@@ -116,12 +124,14 @@ def auth():
     return render_template('auth.html', pages=generate_pages(), form_sign_in=form_sign_in, form_register=form_register)
 
 
-@app.route('/success_register')
+# server:port/blueprint_prefix/add
+@auth_blueprint.route('/success_register')
 def success_register():
     return render_template('success_register.html', pages=generate_pages())
 
 
-@app.route('/logoff')
+# server:port/blueprint_prefix/add
+@auth_blueprint.route('/logoff')
 def logoff():
     logout_user()
     flash('წარმატებით გამოხვედით სისტემიდან', 'alert-green')

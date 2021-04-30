@@ -33,8 +33,10 @@ def create_app():
 
     from app.posts.views import posts_blueprint
     from app.profiles.views import profiles_blueprint
+    from app.auth.views import auth_blueprint
     app.register_blueprint(posts_blueprint, url_prefix="/posts")
     app.register_blueprint(profiles_blueprint, url_prefix="/people")
+    app.register_blueprint(auth_blueprint, url_prefix="/")
 
     app.add_url_rule('/people/<path:filename>',
                      endpoint='people',

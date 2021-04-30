@@ -1,18 +1,38 @@
 from flask import url_for, redirect
 from flask_admin.contrib.sqla import ModelView
+from flask_login import current_user
 
 from app import admin, db
-from app.models import User, PostsModel
+from app.models import User, PostsModel, roles_users
 from app.tools.check_auth import check_auth
 
 
 class AdminModelView(ModelView):
+    column_exclude_list = ['password', ]
+
     def is_accessible(self):
-        return check_auth()
+        if check_auth():
+            if current_user.id in roles_users.query.filter_by(name='admin').first():
+                return True
+        return False
 
     def inaccessible_callback(self, name, **kwargs):
+        print(f'{current_user.username} with role "{current_user.role_id} is trying to access an admin-only page"')
+        return redirect(url_for('/'))
+
+
+class ModModelView(ModelView):
+
+    def is_accessible(self):
+        if check_auth():
+            if current_user.id in roles_users.query.filter_by(name='mod').first():
+                return True
+        return False
+
+    def inaccessible_callback(self, name, **kwargs):
+        print(f'{current_user.username} with role "{current_user.role_id} is trying to access a mod-only page"')
         return redirect(url_for('/'))
 
 
 admin.add_view(AdminModelView(User, db.session))
-admin.add_view(AdminModelView(PostsModel, db.session))
+admin.add_view(ModModelView(PostsModel, db.session))
