@@ -1,4 +1,4 @@
-from app.models import UserModel, PostsModel
+from app.models import User, PostsModel
 from app import db
 
 # delete the entire file later

@@ -1,2 +1,2 @@
 from app.models.posts import PostsModel
-from app.models.users import UserModel, Role
+from app.models.users import User, Role

@@ -8,8 +8,8 @@ def generate_pages():
     pages_nav_list = [
         ("posts.list_posts", "პოსტები"),
         ("profiles.list_people", "ხალხი"),
-        ("auth.list_pages", "გვერდები"),
-        ("auth.auth", "შესვლა")
+        ("list_pages", "გვერდები"),
+        ("auth", "შესვლა")
     ]
 
     from flask_login import current_user

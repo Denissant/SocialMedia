@@ -2,7 +2,7 @@ from flask import Blueprint, request, render_template, redirect
 from flask_login import login_required, current_user
 from datetime import datetime
 from app.posts.forms import PostForm
-from app.models import PostsModel, UserModel
+from app.models import PostsModel, User
 from app.tools.check_auth import check_auth
 from app.tools.save_file import save_file
 from app.tools.nav_link_list import generate_pages
@@ -15,14 +15,13 @@ posts_blueprint = Blueprint('posts',
 
 # server:port/blueprint_prefix/add
 @posts_blueprint.route('/', methods=['GET', 'POST'])
-@login_required
 def list_posts():
     """
     shows all posts and lets signed-in users post a picture, text or both
     """
     form_post = PostForm()
     all_posts = PostsModel.query.all()
-    authors = UserModel
+    authors = User
 
     if request.method == 'POST' and check_auth():
         if form_post.text.data or form_post.media.data:

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, request, flash
 from flask_login import current_user
 
-from app.models import UserModel
+from app.models import User
 from app.profiles.forms import RegisterForm
 from app.tools.check_auth import check_auth
 from app.tools.format_dob import dob_string_to_datetime, calculate_age
@@ -20,7 +20,7 @@ def list_people():
     """
     shows the list of all registered profiles
     """
-    people_list = UserModel.query.all()
+    people_list = User.query.all()
     return render_template('people.html', pages=generate_pages(), people_list=people_list)
 
 
@@ -49,7 +49,7 @@ def profile(username=None):
                     if x.name == 'picture':
                         x.data = save_file(current_user.username, x.data, 'profile_pictures')  # saves file to directory, returns filename
 
-                    if x.name != 'password' and x.name != 'role':
+                    if x.name != 'password':
                         setattr(current_user, x.name, x.data)
                         db.session.commit()
             flash('მონაცემები წარმატებით განახლდა', 'alert-green')
@@ -60,7 +60,7 @@ def profile(username=None):
         return render_template('my_profile.html', pages=generate_pages(), form_register=RegisterForm())
 
     elif username:
-        user = UserModel.find_by_username(username)
+        user = User.find_by_username(username)
         return render_template('people_profile.html', pages=generate_pages(), user=user)
 
     else:

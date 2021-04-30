@@ -1,28 +1,31 @@
-from flask_login import UserMixin
+from flask_security import UserMixin, RoleMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import db
-from app import login_manager
+from app.login_manager import login_manager
 from app.tools.format_dob import calculate_age
 
 
-class Role(db.Model):
-    __tablename__ = 'roles'
+roles_users = db.Table('roles_users',
+                       db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+                       db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
 
-    id = db.Column(db.Integer, primary_key=True)
+
+class Role(db.Model, RoleMixin):
+    id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(80), unique=True)
-    users = db.relationship('UserModel', backref='roles', uselist=False)
+    description = db.Column(db.String(255))
 
-    def __init__(self, name):
+    def __init__(self, name, description):
         self.name = name
+        self.description = description
 
 
-class UserModel(db.Model, UserMixin):
+class User(db.Model, UserMixin):
     """
     contains data about registered users
     each user may have posts linked to their profile
     """
-    __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(16), unique=True, nullable=False, index=True)
@@ -35,10 +38,11 @@ class UserModel(db.Model, UserMixin):
     password = db.Column(db.String(255))
     age = db.Column(db.Integer)
     picture = db.Column(db.String)
-    post = db.relationship('PostsModel', backref='usermodel', uselist=False)
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    post = db.relationship('PostsModel', backref='User', uselist=False)
+    roles = db.relationship('Role', secondary=roles_users,
+                            backref=db.backref('users', lazy='dynamic'))
 
-    def __init__(self, username, name_first, name_last, email, phone, dob, sex, password, role_id, age=None, picture=None):
+    def __init__(self, username, name_first, name_last, email, phone, dob, sex, password, age=None, picture=None):
         self.username = username
         self.name_first = name_first
         self.name_last = name_last
@@ -47,7 +51,6 @@ class UserModel(db.Model, UserMixin):
         self.dob = dob
         self.sex = sex
         self.password = generate_password_hash(password)
-        self.role_id = role_id
         self.age = calculate_age(dob)
         self.picture = picture
 
@@ -70,6 +73,6 @@ class UserModel(db.Model, UserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     try:
-        return UserModel.query.get(user_id)
+        return User.query.get(user_id)
     except Exception as e:
         print(e)
