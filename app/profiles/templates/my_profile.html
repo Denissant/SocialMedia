@@ -50,13 +50,6 @@
                 </td>
             </tr>
             <tr>
-                <td>{{ form_register.phone(
-                    class_='auth-input auth-input-short',
-                    placeholder='მობილურის ნომერი',
-                    value='%s' % current_user.phone) }}
-                </td>
-            </tr>
-            <tr>
                 <td> <span id="help-register-age"> {{ form_register.dob.label }} </span> <br>
                     {{ form_register.dob(
                     class_='input-date', type='date',

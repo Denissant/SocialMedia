@@ -2,7 +2,7 @@ from flask_script import Command
 
 from app.data.dummy_data import users, roles
 from app.database import db
-from app.models import UserModel, Role
+from app.models import User, Role
 
 
 class InitDbCommand(Command):
@@ -22,7 +22,9 @@ def populate_db():
         db.session.add(r)
     db.session.commit()
 
-    for t in users:
-        t = UserModel(*t)
-        db.session.add(t)
+    for u in users:
+        u = User(*u)
+        u.roles.append(Role.query.filter_by(name='user').first())
+
+        db.session.add(u)
     db.session.commit()

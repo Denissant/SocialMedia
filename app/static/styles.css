@@ -7,7 +7,6 @@ html, body {
     background-color: #fffafa;
 }
 
-
 * {
     box-sizing: border-box;
 }
@@ -29,9 +28,9 @@ html, body {
 
 #footer {
     position: relative;
-    bottom:0;
-    width:100%;
-    height:60px;
+    bottom: 0;
+    width: 100%;
+    height: 3.75rem;
     background: rgba(0, 0, 0, 0.04);
 }
 
@@ -54,7 +53,7 @@ li {
 
 #navbar {
     display: flex;
-    font-size: 26px;
+    font-size: 1.7rem;
     font-family: "BPG Nino Elite Exp Caps", sans-serif;
 }
 
@@ -68,7 +67,7 @@ li {
 
 #navbar .active {
     background-color: #ff5050;
-    box-shadow: inset 1px 2px 6px rgba(2, 12, 47, 0.27);
+    box-shadow: inset 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
     color: white
 }
 
@@ -76,23 +75,23 @@ li {
 #navbar .nav-passive {
     background-color: white;
     border: none;
-    box-shadow: 1px 2px 6px rgba(2, 12, 47, 0.27);
+    box-shadow: 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
     color: #C70101;
 }
 
 
 #navbar .nav-passive:hover {
-    box-shadow: inset 1px 2px 6px rgba(2, 12, 47, 0.27);
+    box-shadow: inset 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
 }
 
 
 #navbar :first-child {
-    border-bottom-left-radius: 15px;
+    border-bottom-left-radius: 0.94rem;
 }
 
 
 #navbar :last-child {
-    border-bottom-right-radius: 15px;
+    border-bottom-right-radius: 0.94rem;
 }
 
 /*  End - NavBar and its buttons  */
@@ -106,18 +105,18 @@ li {
 #login-tab, #register-tab {
     background-color: white;
     color: red;
-    border-radius: 10px;
-    margin-right: 6px;
-    box-shadow: 1px 2px 6px rgba(2, 12, 47, 0.27);
+    border-radius: 0.625rem;
+    margin-right: 0.4rem;
+    box-shadow: 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
 }
 
 #login-tab:hover, #register-tab:hover {
-    box-shadow: inset 2px 1px 5px rgba(2, 12, 47, 0.27);
+    box-shadow: inset 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
 }
 
 #auth-tabs {
     padding: 7% 0 0 39%;
-    font-size: 25px;
+    font-size: 1.56rem;
     font-family: "BPG Nino Elite Exp Caps", sans-serif
 }
 
@@ -138,19 +137,19 @@ li {
 }
 
 .auth-input, .auth-input-short, .auth-input-shorter {
-    box-shadow: 1px 2px 6px rgba(2, 12, 47, 0.27);
+    box-shadow: 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
     border: none;
 }
 
 .auth-input:focus-within, .auth-input-short:focus-within, .auth-input-shorter:focus-within {
-    box-shadow: inset 1px 2px 6px rgba(2, 12, 47, 0.27)
+    box-shadow: inset 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27)
 }
 
 .auth-input, .auth-input:focus {
-    height: 50px;
+    height: 3.125rem;
     width: 160%;
     outline: 0;
-    border-radius: 10px;
+    border-radius: 0.625rem;
 }
 
 .auth-input-short, .auth-input-short:focus {
@@ -164,16 +163,16 @@ li {
 
 form input[type="text"], form input[type="password"] {
     box-sizing: border-box;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-bottom: 15px;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    margin-bottom: 1rem;
 }
 
 .input-date {
     width: 75%;
-    height: 45px;
-    border-radius: 10px;
-    box-shadow: 1px 2px 6px rgba(2, 12, 47, 0.27);
+    height: 2.81rem;
+    border-radius: 0.625rem;
+    box-shadow: 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
     border: none;
     outline: 0;
     padding: 0 4.5% 0 4.5%;
@@ -182,21 +181,21 @@ form input[type="text"], form input[type="password"] {
 .input-sex li {
     display: inline-block;
     flex-direction: row;
-    margin-right: 4px;
-    padding: 5px;
-    border-radius: 10px;
+    margin-right: 0.25rem;
+    padding: 0.31rem;
+    border-radius: 0.625rem;
 }
 
 .input-sex {
-    margin-right: 30px;
+    margin-right: 1.87rem;
 }
 
 .input-sex li {
-    box-shadow: 1px 2px 6px rgba(2, 12, 47, 0.27);
+    box-shadow: 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
 }
 
 .input-sex li:active {
-    box-shadow: inset 1px 2px 6px rgba(2, 12, 47, 0.27);
+    box-shadow: inset 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
 }
 
 /* may be redundant */
@@ -207,42 +206,42 @@ form input[type="text"], form input[type="password"] {
 .input-picture, #file {
     background-color: #ff5050;
     color: #FFFFFF;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     font-family: "BPG Nino Elite Exp Caps", sans-serif;
-    box-shadow: 1px 2px 6px rgba(2, 12, 47, 0.27);
+    box-shadow: 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
 }
 
 .input-profile-picture, #file {
     width: 75%;
-    height: 41px;
-    margin-bottom: -2px;
-    padding: 7px;
-    font-size: 18px;
+    height: 2.56rem;
+    margin-bottom: 0.125rem;
+    padding: 0.44rem;
+    font-size: 1.125rem;
 }
 
 
 #submit_register, #submit_update, #submit_login, #submit_post {
     background-color: #ff5050;
     color: #FFFFFF;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     font-family: "BPG Nino Elite Exp Caps", sans-serif;
     border: none;
-    box-shadow: 1px 2px 6px rgba(2, 12, 47, 0.27);
+    box-shadow: 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
     outline: none;
 }
 
 #submit_register, #submit_update, #submit_login {
-    height: 38px;
-    font-size: 22px;
+    height: 2.37rem;
+    font-size: 1.375rem;
 }
 
 #submit_register:hover, #submit_update:hover, #submit_login:hover, .input-picture:hover, #submit_post:hover {
-    box-shadow: inset -3px -3px 16px rgba(52, 4, 4, 0.22);
+    box-shadow: inset -0.24rem -0.24rem 0.4rem rgba(52, 4, 4, 0.22);
 }
 
 #submit_register:active, #submit_update:active, #submit_login:active, .input-picture:active, #submit_post:active {
     outline: 0;
-    box-shadow: inset 3px 3px 16px rgba(52, 4, 4, 0.22);
+    box-shadow: inset 0.24rem 0.24rem 0.4rem rgba(52, 4, 4, 0.22);
 }
 
 
@@ -262,21 +261,21 @@ form input[type="text"], form input[type="password"] {
 }
 
 #help-register-age {
-    font-size: 14px;
+    font-size: 0.9rem;
     color: #797979;
-    margin-right: 200px;
+    margin-right: 12.5rem;
 }
 
 #help-register-sex {
-    font-size: 14px;
+    font-size: 0.9rem;
     color: #797979;
-    margin-right: 300px;
+    margin-right: 18.75rem;
 }
 
 #help-register-picture {
-    font-size: 14px;
+    font-size: 0.9rem;
     color: #797979;
-    margin-right: 200px;
+    margin-right: 12.5rem;
 }
 
 #uploaded-profile-picture[src="#"], #uploaded-post-picture[src="#"] {
@@ -293,28 +292,28 @@ form input[type="text"], form input[type="password"] {
 
 #logoff {
     float: right;
-    padding: 10px 25px 10px 25px;
-    margin: 30px;
+    padding: 0.625rem 1.56rem 0.625rem 1.56rem;
+    margin: 1.9rem;
     font-weight: bold;
     color: purple;
     font-family: "BPG Nino Elite Exp Caps", sans-serif;
-    border-radius: 40px;
+    border-radius: 2.5rem;
     background-color: white;
-    box-shadow: 2px 2px 13px 3px #f3a8a8;
-    font-size: 20px;
+    box-shadow: 0.15rem 0.15rem 0.85rem 0.2rem #f3a8a8;
+    font-size: 1.25rem;
     user-select: none;
 }
 
 
 #logoff:hover {
-    box-shadow: inset 2px 2px 13px #f3a8a8;
+    box-shadow: inset 0.15rem 0.15rem 0.85rem #f3a8a8;
     text-decoration: none;
 }
 
 
 #logoff:active {
     background-color: #ba4b4b;
-    box-shadow: inset 2px 2px 13px #8e3434;
+    box-shadow: inset 0.15rem 0.15rem 0.85rem #8e3434;
     color: white;
 }
 
@@ -342,14 +341,14 @@ form input[type="text"], form input[type="password"] {
     width: 40%;
     height: 5%;
     background-color: white;
-    border-radius: 60px;
+    border-radius: 3.75rem;
     padding: 1%;
-    box-shadow: -2px 0 12px rgba(2, 12, 47, 0.35);
+    box-shadow: -0.15rem 0 0.8rem rgba(2, 12, 47, 0.35);
 }
 
 
 .profile-list-one:hover {
-    box-shadow: inset 2px 2px 10px rgba(2, 12, 47, 0.27);
+    box-shadow: inset 0.15rem 0.15rem 0.67rem rgba(2, 12, 47, 0.27);
 }
 
 
@@ -360,14 +359,14 @@ form input[type="text"], form input[type="password"] {
 
 .profile-list-name {
     font-family: "Open Sans Mixed", "BPG Nino Elite", sans-serif;
-    font-size: 26px;
+    font-size: 1.625rem;
     color: #000000;
     overflow: hidden;
     margin-top: 2.3%;
     margin-left: 1.6%;
     white-space: nowrap;
     text-overflow: ellipsis;
-    max-width: 250px;
+    max-width: 15.625rem;
     display: inline-block;
     position: absolute;
 }
@@ -399,7 +398,7 @@ form input[type="text"], form input[type="password"] {
 
 .profile-list-all a:active img {
     background-color: white;
-    border: 3px solid white;
+    border: 0.188rem solid white;
 }
 
 .profile-list-all a:active .profile-list-one {
@@ -411,12 +410,12 @@ form input[type="text"], form input[type="password"] {
 }
 
 .profile-list-image {
-    border-radius: 50px;
+    border-radius: 3.125rem;
     background-color: #ff5050;
-    box-shadow: 0 0 3px 2px #ff5050;
-    height: 100px;
-    width: 100px;
-    margin: 5px 10px 0 5px;
+    box-shadow: 0 0 0.24rem 0.15rem #ff5050;
+    height: 6.25rem;
+    width: 6.25rem;
+    margin: 0.312rem 0.625rem 0 0.312rem;
 }
 
 /*  End Profiles List  */
@@ -427,21 +426,21 @@ form input[type="text"], form input[type="password"] {
 /*  Individual Profiles  */
 
 .myprofile-profilepicture {
-    height: 200px;
-    width: 200px;
+    height: 12.5rem;
+    width: 12.5rem;
     float:right;
-    margin-right: 40px;
-    border-radius: 500px;
-    border: solid 7px #ff5050;
+    margin-right: 2.5rem;
+    border-radius: 32rem;
+    border: solid 0.44rem #ff5050;
     background-color: #ff5050;
 }
 
 
 #uploaded-profile-picture {
-    border-radius: 100px;
-    border: 4px solid #ff5050;
+    border-radius: 20rem;
+    border: 0.25rem solid #ff5050;
     background-color: #ff5050;
-    margin-left: 200px;
+    margin-left: 12.5rem;
     position: absolute;
 }
 
@@ -459,25 +458,25 @@ form input[type="text"], form input[type="password"] {
 }
     
 .post-input {
-    box-shadow: 1px 2px 6px rgba(2, 12, 47, 0.27);
+    box-shadow: 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
     border: none;
     outline: none;
     padding: 0.75rem 1.25rem;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     width: 100%;
     max-width: 100%;
     resize: none;
 }
 
 .post-input:focus {
-    box-shadow: inset 1px 2px 6px rgba(2, 12, 47, 0.27);
+    box-shadow: inset 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
 }
 
 .input-post-picture {
     display: inline-block;
     width: 50%;
     height: 2.5rem;
-    padding: 7px;
+    padding: 0.44rem;
     font-size: 1.125rem;
     text-align: center;
 }
@@ -491,7 +490,7 @@ form input[type="text"], form input[type="password"] {
 #uploaded-post-picture {
     margin: 0 0 1rem 1rem;
     border-radius: 1.5rem;
-    border: 5px solid #FF5050;
+    border: 0.31rem solid #FF5050;
 }
 
 .timeline {
@@ -500,8 +499,8 @@ form input[type="text"], form input[type="password"] {
 
 .timeline-post {
     background-color: rgba(255, 137, 137, 0.035);
-    box-shadow: inset 1px 2px 6px rgba(2, 12, 47, 0.27);
-    border-radius: 20px;
+    box-shadow: inset 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
+    border-radius: 1.25rem;
     width: 250%;
     padding: 2rem;
 }
@@ -519,16 +518,16 @@ form input[type="text"], form input[type="password"] {
 .background-post-picture {
     background-color: rgba(255, 137, 137, 0.035);
     margin: 5% 0;
-    border-radius: 20px;
-    box-shadow: 1px 1px 11px rgba(2, 12, 47, 0.46);
+    border-radius: 1.25rem;
+    box-shadow: 0.1rem 0.1rem 0.75rem rgba(2, 12, 47, 0.46);
     width: 48rem;
     height: auto;
 }
 
 .author-picture {
-    height: 50px;
-    width: 50px;
-    border-radius: 60px;
+    height: 3.125rem;
+    width: 3.125rem;
+    border-radius: 3.75rem;
 }
 
 .post-author-link {
@@ -540,19 +539,19 @@ form input[type="text"], form input[type="password"] {
     background-color: rgba(255, 137, 137, 0.035);
     padding: 1.4rem;
     margin-left: 2.5rem;
-    border-radius: 20px;
-    box-shadow: 1px 2px 6px rgba(2, 12, 47, 0.27);
+    border-radius: 1.25rem;
+    box-shadow: 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
     text-align: center;
 }
 
 .post-author-link:hover {
     text-decoration: none;
-    box-shadow: inset 1px 2px 6px rgba(2, 12, 47, 0.27);
+    box-shadow: inset 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
 }
 
 .post-text {
     margin: 2rem 2.5rem;
-    box-shadow: inset 1px 2px 6px rgba(2, 12, 47, 0.27);
+    box-shadow: inset 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
     background-color: white;
     font-size: 1.1rem;
     padding: 2rem;
@@ -574,13 +573,13 @@ form input[type="text"], form input[type="password"] {
 
 .nav-left-tabs {
     font-family: "BPG Nino Elite Exp Caps", sans-serif;
-    box-shadow: 2px 2px 9px rgba(2, 12, 47, 0.27);
+    box-shadow: 0.15rem 0.15rem 0.61rem rgba(2, 12, 47, 0.27);
     background-color: white!important;
-    font-size: 20px;
+    font-size: 1.25rem;
     text-align: center;
-    max-width: 300px;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
+    max-width: 18.75rem;
+    border-top-right-radius: 1.875rem;
+    border-bottom-right-radius: 1.875rem;
 }
 
 .nav-left-tabs * {
@@ -588,25 +587,25 @@ form input[type="text"], form input[type="password"] {
 }
 
 .nav-left-tabs .tab-passive:hover {
-    box-shadow: inset 1px 2px 6px rgba(2, 12, 47, 0.27);
-    border-top-right-radius: 30px!important;
-    border-bottom-right-radius: 30px!important;
+    box-shadow: inset 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
+    border-top-right-radius: 1.875rem!important;
+    border-bottom-right-radius: 1.875rem!important;
 }
 
 .nav-left-tabs .active {
     background-color: #ff5050!important;
     color: white!important;
-    border-radius: 0 30px 30px 0!important;
-    box-shadow: inset 4px 4px 6px rgba(2, 12, 47, 0.27)!important;
+    border-radius: 0 1.875rem 1.875rem 0!important;
+    box-shadow: inset 0.3rem 0.3rem 0.42rem rgba(2, 12, 47, 0.27)!important;
 }
 
 .nav-left-tabs *:hover {
-    box-shadow: inset 1px 2px 6px rgba(2, 12, 47, 0.27)!important;
-    border-radius: 30px;
+    box-shadow: inset 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27)!important;
+    border-radius: 1.875rem;
 }
 
 .nav-tabs .active {
-    box-shadow: inset 1px 2px 6px rgba(2, 12, 47, 0.27)!important;
+    box-shadow: inset 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27)!important;
     color: purple!important;
 }
 
@@ -625,18 +624,26 @@ form input[type="text"], form input[type="password"] {
 
 
 [role=alert] {
-    margin-top: 3%;
+    margin-top: 5%;
     text-align: center;
 }
 
-/*overriding bootstrap .alert-dismissible*/
+/*overriding bootstrap .alert-dismissible and .alert*/
 .alert-dismissible {
     padding-right: 0!important;
 }
 
+.alert {
+    padding: 0
+}
+
+.alert .close, .alert .close span {
+    margin-top: -0.5%;
+}
+
 .alert-green, .alert-red, .alert-yellow {
     box-sizing: border-box;
-    height: 200%;
+    height: 100%;
     font-size: 1.1rem;
     text-align: center;
     padding-top: 0.3rem;

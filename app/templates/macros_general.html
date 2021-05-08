@@ -2,9 +2,9 @@
     <nav class="c-12" id="navbar">
         {% for page in pages %}
             {% if request.endpoint.endswith(page[0]) %}
-                <a class="c-3 nav-button active" href="{{ url_for(page[0]) }}">{{ page[1] }}</a>
+                <a class="c-4 nav-button active" href="{{ url_for(page[0]) }}">{{ page[1] }}</a>
             {% else %}
-                <a class="c-3 nav-button nav-passive" href="{{ url_for(page[0]) }}">{{ page[1] }}</a>
+                <a class="c-4 nav-button nav-passive" href="{{ url_for(page[0]) }}">{{ page[1] }}</a>
             {% endif %}
         {% endfor %}
     </nav>
@@ -42,7 +42,7 @@
         <ul class="alert alert-dismissible fade show" role="alert" style="position:absolute; top:10px; float:top; width: 100%; height: 45px; text-align: center">
 
         {% for category, message in messages %}
-          <li class="{{ category }}">{{ message }}</li>
+          <div class="{{ category }}">{{ message }}</div>
         {% endfor %}
 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">

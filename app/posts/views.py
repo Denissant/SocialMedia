@@ -2,10 +2,10 @@ from flask import Blueprint, request, render_template, redirect
 from flask_login import login_required, current_user
 from datetime import datetime
 from app.posts.forms import PostForm
-from app.models import PostsModel, UserModel
+from app.models import PostsModel, User
 from app.tools.check_auth import check_auth
 from app.tools.save_file import save_file
-from app.tools.nav_link_list import generate_pages
+from app.tools.nav_link_list import generate_nav_links
 
 posts_blueprint = Blueprint('posts',
                             __name__,
@@ -22,7 +22,7 @@ def list_posts():
     """
     form_post = PostForm()
     all_posts = PostsModel.query.all()
-    authors = UserModel
+    authors = User
 
     if request.method == 'POST' and check_auth():
         if form_post.text.data or form_post.media.data:
@@ -38,4 +38,4 @@ def list_posts():
         return redirect('/posts')
 
     else:
-        return render_template('posts.html', pages=generate_pages(), form=form_post, all_posts=all_posts, authors=authors)
+        return render_template('posts.html', pages=generate_nav_links(), form=form_post, all_posts=all_posts, authors=authors)

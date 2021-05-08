@@ -1,4 +1,4 @@
-def generate_pages():
+def generate_nav_links():
     """
     generates links and titles for navbar
     navbar either has an auth button or a button for the logged-in user
@@ -8,12 +8,11 @@ def generate_pages():
     pages_nav_list = [
         ("posts.list_posts", "პოსტები"),
         ("profiles.list_people", "ხალხი"),
-        ("auth.list_pages", "გვერდები"),
         ("auth.auth", "შესვლა")
     ]
 
     from flask_login import current_user
     if current_user.is_authenticated:
-        pages_nav_list[3] = ('profiles.profile', current_user.username.upper())
+        pages_nav_list[2] = ('profiles.profile', current_user.username.upper())
 
     return pages_nav_list

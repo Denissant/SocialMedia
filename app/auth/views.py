@@ -2,12 +2,12 @@ from flask import render_template, url_for, redirect, flash, request
 from flask_login import login_user, logout_user
 
 from app.database import db
-from app.models import UserModel
+from app.models import User
 from app.profiles.forms import SignInForm, RegisterForm
 from app.tools.check_auth import check_auth
 from app.tools.format_dob import calculate_age, dob_string_to_datetime
 from app.tools.general_crud import create
-from app.tools.nav_link_list import generate_pages
+from app.tools.nav_link_list import generate_nav_links
 from app.tools.save_file import save_file
 from flask import Blueprint
 
@@ -20,7 +20,7 @@ auth_blueprint = Blueprint('auth',
 # server:port/blueprint_prefix/add
 @auth_blueprint.route('/pages')
 def list_pages():
-    return render_template('placeholder.html', pages=generate_pages())
+    return render_template('placeholder.html', pages=generate_nav_links())
 
 
 # server:port/blueprint_prefix/add
@@ -42,12 +42,12 @@ def auth():
             remember_me = form_sign_in.remember_me.data
 
             # Check if logging in through Email
-            if UserModel.find_by_email(identifier):
-                target_account = UserModel.find_by_email(identifier)
+            if User.find_by_email(identifier):
+                target_account = User.find_by_email(identifier)
 
             # Check if logging in through Username
-            elif UserModel.find_by_username(identifier):
-                target_account = UserModel.find_by_username(identifier)
+            elif User.find_by_username(identifier):
+                target_account = User.find_by_username(identifier)
 
             #  Check Password only if the account was found either through Email or Username
             if target_account:
@@ -83,17 +83,16 @@ def auth():
             name_first = form_register.name_first.data
             name_last = form_register.name_last.data
             email = form_register.email.data.lower()
-            phone = form_register.phone.data
             dob = dob_string_to_datetime(form_register.dob.data)
             age = calculate_age(dob)
             sex = form_register.sex.data
             password = form_register.password.data
 
             # check if the username and email are unique
-            if UserModel.find_by_username(username):
+            if User.find_by_username(username):
                 success = False
                 flash('იუზერნეიმი დაკავებულია', 'alert-yellow')
-            elif UserModel.find_by_email(email):
+            elif User.find_by_email(email):
                 success = False
                 flash('მეილი დაკავებულია', 'alert-yellow')
 
@@ -107,27 +106,27 @@ def auth():
 
                 # add everything to DB           # needs to be changed
                 role = 3
-                received_data = (username, name_first, name_last, email, phone, dob, sex, password, role, age, picture_title)
-                create(received_data, UserModel)
-                new_user = UserModel(*received_data)
+                received_data = (username, name_first, name_last, email, dob, sex, password, role, age, picture_title)
+                create(received_data, User)
+                new_user = User(*received_data)
                 db.session.add(new_user)
                 db.session.commit()
 
                 flash('რეგისტრაცია წარმატებით დასრულდა!', 'alert-green')
-                login_user(UserModel.find_by_username(username))
+                login_user(User.find_by_username(username))
 
                 return redirect(url_for('success_register'))
 
         else:  # When data didn't pass WTForms validators
             flash('მონაცემები არასწორადაა შეყვანილი. თავიდან სცადეთ.', 'alert-yellow')
 
-    return render_template('auth.html', pages=generate_pages(), form_sign_in=form_sign_in, form_register=form_register)
+    return render_template('auth.html', pages=generate_nav_links(), form_sign_in=form_sign_in, form_register=form_register)
 
 
 # server:port/blueprint_prefix/add
 @auth_blueprint.route('/success_register')
 def success_register():
-    return render_template('success_register.html', pages=generate_pages())
+    return render_template('success_register.html', pages=generate_nav_links())
 
 
 # server:port/blueprint_prefix/add

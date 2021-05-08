@@ -48,7 +48,7 @@
           <div class="c-6 timeline">
               <div class="timeline-post">
                     <p class="post-date">{{ post.time.year, post.time.month, post.time.day }} </p>
-                    <a href="{{ url_for('people', filename='profile/%s' % author.username) }}" class="post-author-link">
+                    <a href="{{ url_for('people', filename='%s' % author.username) }}" class="post-author-link">
                         {{ show_profile_picture(author, 'author-picture') }} {{ author.name_first }} {{ author.name_last }}
                     </a>
 

@@ -1,4 +1,4 @@
-from flask import redirect
+from flask import abort
 from flask_admin import AdminIndexView
 
 from app.tools.check_auth import check_auth
@@ -9,4 +9,4 @@ class MyAdminIndexView(AdminIndexView):
         return check_auth()
 
     def inaccessible_callback(self, name, **kwargs):
-        return redirect('/')
+        abort(403)

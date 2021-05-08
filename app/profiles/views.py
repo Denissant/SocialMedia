@@ -1,11 +1,11 @@
 from flask import Blueprint, render_template, redirect, request, flash
 from flask_login import current_user
 
-from app.models import UserModel
+from app.models import User
 from app.profiles.forms import RegisterForm
 from app.tools.check_auth import check_auth
 from app.tools.format_dob import dob_string_to_datetime, calculate_age
-from app.tools.nav_link_list import generate_pages
+from app.tools.nav_link_list import generate_nav_links
 from app.tools.save_file import save_file
 
 profiles_blueprint = Blueprint('profiles',
@@ -16,21 +16,26 @@ profiles_blueprint = Blueprint('profiles',
 
 # server:port/blueprint_prefix/add
 @profiles_blueprint.route('/')
-def list_people():
+@profiles_blueprint.route('/<username>')
+def list_people(username=None):
     """
     shows the list of all registered profiles
+    if a username is specified, shows read-only data of a profile linked to the username
     """
-    people_list = UserModel.query.all()
-    return render_template('people.html', pages=generate_pages(), people_list=people_list)
+    if username:
+        user = User.find_by_username(username)
+        return render_template('people_profile.html', pages=generate_nav_links(), user=user)
+
+    else:
+        people_list = User.query.all()
+        return render_template('people.html', pages=generate_nav_links(), people_list=people_list)
 
 
 # server:port/blueprint_prefix/add
 @profiles_blueprint.route('/profile', methods=['GET', 'POST'])
-@profiles_blueprint.route('/profile/<username>')
-def profile(username=None):
+def profile():
     """
-    by default shows the profile of a signed-in user, lets them edit their data or log out
-    if a username is specified, shows read-only data of a profile linked to the username
+    shows the profile of a signed-in user, lets them edit their data or log out
     """
 
     if request.method == 'POST':  # happens when editing own data
@@ -57,15 +62,10 @@ def profile(username=None):
         else:
             flash('პაროლი არასწორია – მონაცემები არ განახლდა', 'alert-red')
 
-        return render_template('my_profile.html', pages=generate_pages(), form_register=RegisterForm())
-
-    elif username:
-        user = UserModel.find_by_username(username)
-        return render_template('people_profile.html', pages=generate_pages(), user=user)
+        return render_template('my_profile.html', pages=generate_nav_links(), form_register=RegisterForm())
 
     else:
         if check_auth():
-            return render_template('my_profile.html', pages=generate_pages(), form_register=RegisterForm())
+            return render_template('my_profile.html', pages=generate_nav_links(), form_register=RegisterForm())
 
     return redirect('/')
-

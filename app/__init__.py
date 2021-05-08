@@ -26,6 +26,8 @@ def create_app():
     migrate.init_app(app, db, render_as_batch=True)
 
     login_manager.login_view = '/'
+    login_manager.login_message = "გვერდის გასახსნელად შედით სისტემაში"
+    login_manager.login_message_category = "alert-yellow"
 
     from app.posts.views import posts_blueprint
     from app.profiles.views import profiles_blueprint

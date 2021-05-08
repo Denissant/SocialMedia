@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
 from wtforms import StringField, SubmitField, RadioField, PasswordField, BooleanField, ValidationError
 from wtforms.validators import DataRequired, length, EqualTo, Email
-from app.models import UserModel
+from app.models import User
 
 
 class SignInForm(FlaskForm):
@@ -47,10 +47,6 @@ class RegisterForm(FlaskForm):
                             length(min=8, max=64, message="არასწორადაა შეყვანილი"),
                             Email(message="არაა შეყვანილი მეილი")
                         ])
-    phone = StringField('მობილურის ნომერი',
-                        validators=[DataRequired(message="ნომრის შეყვანა აუცილებელია"),
-                                    length(min=9, max=20, message="არასწორადაა შეყვანილი")
-                                    ])
     dob = StringField('დაბადების თარიღი: ',
                       validators=[
                           DataRequired(message="დაბადების თარიღის შეყვანა აუცილებელია")
@@ -77,8 +73,8 @@ class RegisterForm(FlaskForm):
         temp_username = self.username.data
         temp_email = self.email.data
 
-        if UserModel.find_by_username(temp_username):
+        if User.find_by_username(temp_username):
             raise ValidationError("მომხმარებლის სახელი დაკავებულია")
 
-        elif UserModel.find_by_email(temp_email):
+        elif User.find_by_email(temp_email):
             raise ValidationError("ელექტრონული ფოსტა დაკავებულია")
