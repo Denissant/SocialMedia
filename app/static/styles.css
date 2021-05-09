@@ -1,16 +1,15 @@
 /*  Global style, grid*/
 
 html, body {
-    margin:0;
-    padding:0;
-    height:100%;
-    background-color: #fffafa;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: rgb(255, 248, 250);
 }
 
 * {
     box-sizing: border-box;
 }
-
 
 .c-1 {width: 8.33%;}
 .c-2 {width: 16.66%;}
@@ -41,6 +40,8 @@ html, body {
     width: 100%;
     height: 3.75rem;
     background: rgba(0, 0, 0, 0.04);
+    text-decoration: none;
+    color: #521852;
 }
 
 ::selection {
@@ -125,7 +126,7 @@ ul, li {
 }
 
 #auth-tabs {
-    padding: 7% 0 0 39%;
+    padding: 5% 0 0 36.5%;
     font-size: 1.56rem;
     font-family: "BPG Nino Elite Exp Caps", sans-serif;
     margin-bottom: 5%;
@@ -635,6 +636,9 @@ form input[type="text"], form input[type="password"] {
     color: purple!important;
 }
 
+.nav-tabs {
+
+}
 /*  End - Secondary Navigation  */
 
 
@@ -708,3 +712,53 @@ form input[type="text"], form input[type="password"] {
 /*    min-height: 100%;*/
 /*    position: relative;*/
 /*}*/
+
+@media only screen and (max-width: 600px) {
+    .c-1 {width: 100%;}
+    .c-2 {width: 100%;}
+    .c-3 {width: 100%;}
+    .c-4 {width: 100%;}
+    .c-5 {width: 100%;}
+    .c-6 {width: 100%;}
+    .c-7 {width: 100%;}
+    .c-8 {width: 100%;}
+    .c-9 {width: 100%;}
+    .c-10 {width: 100%;}
+    .c-11 {width: 100%;}
+    .c-12 {width: 100%;}
+
+    [role=alert], .alert-green, .alert-red, .alert-yellow {
+        font-size: 0.9rem;
+        width: 100%;
+        position: absolute;
+        height: 75%;
+        top: 80vh
+    }
+    [role=alert] span {
+        position: absolute;
+        top: 80vh
+    }
+
+
+    .nav-button {
+        flex-direction: column;
+        display: inline-block;
+        font-size: 1.2rem;
+    }
+
+    .profile-list-one {
+        width: 90%
+    }
+
+    .profile-list-name {
+        margin-top: 9%;
+        max-width: 55%;
+    }
+
+    #auth-tabs {
+        padding: 5% 0 0 13%;
+        font-size: 1.2rem;
+        font-family: "BPG Nino Elite Exp Caps", sans-serif;
+        margin-bottom: 5%;
+    }
+}
