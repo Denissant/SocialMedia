@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 {% from 'macros_images.html' import show_profile_picture %}
-
-        <div class="profile-list-all">
+        <div class="profile-list-all c-8">
         {% for p in people_list %}
             <a href="{{p.username}}">
-                <div class="profile-list-one">
+                <div class="profile-list-one c-4">
                     <table style="flex-direction: row">
                     <td>
                         <tr> {{ show_profile_picture(p, 'profile-list-image') }} </tr>

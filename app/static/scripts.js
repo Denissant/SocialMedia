@@ -32,7 +32,7 @@ resizeInput.call(input);
 
 function resizeInput() {
   var numberOfNL = (this.value.match(/\n/g)||[]).length
-  this.style.height = 5 + this.value.length * 0.015 + numberOfNL*1.5 + "em" ;
+  this.style.height = 5 + this.value.length * 0.014 + numberOfNL*1.5 + "em" ;
 }
 // end //
 

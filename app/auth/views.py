@@ -6,7 +6,6 @@ from app.models import User
 from app.profiles.forms import SignInForm, RegisterForm
 from app.tools.check_auth import check_auth
 from app.tools.format_dob import calculate_age, dob_string_to_datetime
-from app.tools.general_crud import create
 from app.tools.nav_link_list import generate_nav_links
 from app.tools.save_file import save_file
 from flask import Blueprint
@@ -107,7 +106,6 @@ def auth():
                 # add everything to DB           # needs to be changed
                 role = 3
                 received_data = (username, name_first, name_last, email, dob, sex, password, role, age, picture_title)
-                create(received_data, User)
                 new_user = User(*received_data)
                 db.session.add(new_user)
                 db.session.commit()
@@ -115,7 +113,7 @@ def auth():
                 flash('რეგისტრაცია წარმატებით დასრულდა!', 'alert-green')
                 login_user(User.find_by_username(username))
 
-                return redirect(url_for('success_register'))
+                return redirect(url_for('profiles.profile'))
 
         else:  # When data didn't pass WTForms validators
             flash('მონაცემები არასწორადაა შეყვანილი. თავიდან სცადეთ.', 'alert-yellow')

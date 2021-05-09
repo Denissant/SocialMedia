@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, request, flash
 from flask_login import current_user
 
 from app.models import User
-from app.profiles.forms import RegisterForm
+from app.profiles.forms import UpdateForm
 from app.tools.check_auth import check_auth
 from app.tools.format_dob import dob_string_to_datetime, calculate_age
 from app.tools.nav_link_list import generate_nav_links
@@ -39,33 +39,34 @@ def profile():
     """
 
     if request.method == 'POST':  # happens when editing own data
-        form_register = RegisterForm()
-        if current_user.check_password(form_register.password.data):
+        form_update = UpdateForm()
+        if current_user.check_password(form_update.password.data):
             from app.database import db
-            formatted_date = dob_string_to_datetime(form_register.dob.data)
+            formatted_date = dob_string_to_datetime(form_update.dob.data)
+            if form_update.validate_on_submit():
+                for x in set(form_update):
 
-            for x in set(form_register):
+                    if x.name == 'dob':
+                        x.data = formatted_date
+                        setattr(current_user, 'age', calculate_age(x.data))
 
-                if x.name == 'dob':
-                    x.data = formatted_date
-                    setattr(current_user, 'age', calculate_age(x.data))
+                    if x.data and x.data != '' and x.name in current_user.__table__.c:
+                        if x.name == 'picture':
+                            x.data = save_file(current_user.username, x.data, 'profile_pictures')  # saves file to directory, returns filename
 
-                if x.data and x.data != '' and x.name in current_user.__table__.c:
-                    if x.name == 'picture':
-                        x.data = save_file(current_user.username, x.data, 'profile_pictures')  # saves file to directory, returns filename
-
-                    if x.name != 'password' and x.name != 'role':
-                        setattr(current_user, x.name, x.data)
-                        db.session.commit()
-            flash('მონაცემები წარმატებით განახლდა', 'alert-green')
-
+                        if x.name != 'password' and x.name != 'role':
+                            setattr(current_user, x.name, x.data)
+                            db.session.commit()
+                flash('მონაცემები წარმატებით განახლდა', 'alert-green')
+            else:
+                flash('მონაცემები არასწორადაა შეყვანილი – მონაცემები არ განახლდა', 'alert-red')
         else:
             flash('პაროლი არასწორია – მონაცემები არ განახლდა', 'alert-red')
 
-        return render_template('my_profile.html', pages=generate_nav_links(), form_register=RegisterForm())
+        return render_template('my_profile.html', pages=generate_nav_links(), form_update=UpdateForm())
 
     else:
         if check_auth():
-            return render_template('my_profile.html', pages=generate_nav_links(), form_register=RegisterForm())
+            return render_template('my_profile.html', pages=generate_nav_links(), form_update=UpdateForm())
 
     return redirect('/')

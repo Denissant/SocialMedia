@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField
 from wtforms import StringField, SubmitField, RadioField, PasswordField, BooleanField, ValidationError
-from wtforms.validators import DataRequired, length, EqualTo, Email
+from wtforms.validators import DataRequired, length, EqualTo, Email, Optional
 from app.models import User
 
 
@@ -26,7 +26,7 @@ class SignInForm(FlaskForm):
 
 class RegisterForm(FlaskForm):
     """
-    form used for signing up or updating user data when signed in
+    form used for signing up
     """
     username = StringField('მომხმარებლის სახელი',
                            validators=[
@@ -35,11 +35,13 @@ class RegisterForm(FlaskForm):
                            ])
     name_first = StringField('სახელი',
                              validators=[
-                                 DataRequired(message="სახელის შეყვანა აუცილებელია")
+                                 DataRequired(message="სახელის შეყვანა აუცილებელია"),
+                                 length(min=1, max=32)
                              ])
     name_last = StringField('გვარი',
                             validators=[
-                                DataRequired(message="გვარის შეყვანა აუცილებელია")
+                                DataRequired(message="გვარის შეყვანა აუცილებელია"),
+                                length(min=2, max=32)
                             ])
     email = StringField('ელექტრონული ფოსტა',
                         validators=[
@@ -66,9 +68,8 @@ class RegisterForm(FlaskForm):
                              ])
     conf_pass = PasswordField('გაიმეორეთ პაროლი')
     submit_register = SubmitField('რეგისტრაცია')
-    submit_update = SubmitField('განახლება')
 
-    #  may need to put outside RegisterForm, should delete from routes.py auth()
+    #  TODO: may need to put outside RegisterForm, should delete from routes.py auth()
     def check_already_used(self, username, email):
         temp_username = self.username.data
         temp_email = self.email.data
@@ -78,3 +79,42 @@ class RegisterForm(FlaskForm):
 
         elif User.find_by_email(temp_email):
             raise ValidationError("ელექტრონული ფოსტა დაკავებულია")
+
+
+class UpdateForm(FlaskForm):
+    """
+    form used for updating user data when signed in
+    """
+    name_first = StringField('სახელი',
+                             validators=[
+                                 DataRequired(message="სახელის შეყვანა აუცილებელია"),
+                                 length(min=1, max=32)
+                             ])
+    name_last = StringField('გვარი',
+                            validators=[
+                                DataRequired(message="გვარის შეყვანა აუცილებელია"),
+                                length(min=2, max=32)
+                            ])
+    email = StringField('ელექტრონული ფოსტა',
+                        validators=[
+                            DataRequired(message="მეილის შეყვანა აუცილებელია"),
+                            length(min=8, max=64, message="არასწორადაა შეყვანილი"),
+                            Email(message="არაა შეყვანილი მეილი")
+                        ])
+    dob = StringField('დაბადების თარიღი: ',
+                      validators=[
+                          DataRequired(message="დაბადების თარიღის შეყვანა აუცილებელია")
+                      ])
+    sex = RadioField('სქესი: ',
+                     choices=[
+                         ('Female', 'მდედრობითი'),
+                         ('Male', 'მამრობითი'),
+                         ('Non-Binary', 'სხვა')
+                     ],
+                     validators=[Optional()])
+    picture = FileField('სურათი (არაა აუცილებელი): ')
+    password = PasswordField('ახალი პაროლი',
+                             validators=[
+                                 DataRequired(message="პაროლის შეყვანა აუცილებელია"),
+                             ])
+    submit_update = SubmitField('განახლება')
