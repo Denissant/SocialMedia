@@ -243,7 +243,7 @@ form input[type="text"], form input[type="password"] {
 }
 
 
-#submit_register, #submit_update, #submit_login, #submit_post {
+#submit_register, #submit_update, #submit_login, #submit_post, #submit_comment {
     background-color: #ff5050;
     color: #FFFFFF;
     border-radius: 0.625rem;
@@ -258,11 +258,11 @@ form input[type="text"], form input[type="password"] {
     font-size: 1.375rem;
 }
 
-#submit_register:hover, #submit_update:hover, #submit_login:hover, .input-picture:hover, #submit_post:hover {
+#submit_register:hover, #submit_update:hover, #submit_login:hover, .input-picture:hover, #submit_post:hover, #submit_comment:hover {
     box-shadow: inset -0.24rem -0.24rem 0.4rem rgba(52, 4, 4, 0.22);
 }
 
-#submit_register:active, #submit_update:active, #submit_login:active, .input-picture:active, #submit_post:active {
+#submit_register:active, #submit_update:active, #submit_login:active, .input-picture:active, #submit_post:active, #submit_comment:active {
     outline: 0;
     box-shadow: inset 0.24rem 0.24rem 0.4rem rgba(52, 4, 4, 0.22);
 }
@@ -578,8 +578,8 @@ form input[type="text"], form input[type="password"] {
 }
 
 .post-text {
-    margin: 2rem 2.5rem;
-    /*border-bottom: 1px solid rgba(101, 0, 95, 0.16);*/
+    margin: 2rem 2.5rem 0.2rem 2.5rem;
+    border-bottom: 1px solid rgba(101, 0, 95, 0.16);
     background-color: white;
     font-size: 1.1rem;
     padding: 2rem;
@@ -590,6 +590,54 @@ form input[type="text"], form input[type="password"] {
     color: rgba(123, 0, 0, 0.51);
     float: right;
 }
+
+
+.comment-field {
+    margin: 0 5rem;
+    background-color: white;
+    font-size: 1.1rem;
+    padding: 2rem;
+}
+
+.comment-input {
+    box-shadow: 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
+    border: none;
+    outline: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.625rem;
+    width: 100%;
+    max-width: 100%;
+    height: 3rem;
+    font-size: 1rem;
+}
+
+
+.comment-input:focus {
+    box-shadow: inset 0.1rem 0.18rem 0.4rem rgba(2, 12, 47, 0.27);
+}
+
+.post-id-hidden {
+    display: none;
+}
+
+.submit-style-comment {
+    position: absolute;
+    font-size: 1.8rem;
+    margin: 0 1%;
+}
+
+
+.comment-author-link {
+    font-family: "Open Sans Mixed", "BPG Nino Elite", sans-serif;
+    font-weight: bold;
+    text-decoration: none;
+    color: purple;
+    font-size: 1rem;
+    margin-right: 0.5%;
+}
+
+
+
 /*  End – Posts list  */
 
 

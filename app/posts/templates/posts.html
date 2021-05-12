@@ -15,20 +15,20 @@
 
     {% if current_user.username %}
 
-        {{ form.hidden_tag() }}
         <form method="POST" enctype="multipart/form-data">
-                {{ form.text(
+                {{ form_post.hidden_tag() }}
+                {{ form_post.post_text(
                 class_='post-input',
                 placeholder='დაწერე რაც მოგაფიქრდება') }}
 
             <label class="input-picture input-post-picture"> სურათის ატვირთვა
-                {{ form.media(
+                {{ form_post.media(
                 accept="image/*",
                 class_="hidden-picture-form",
                 onchange="displayUploaded(this, 'post_picture')") }}
             </label>
 
-            <span class="submit-style-post"> {{ form.submit_post }} </span>
+            <span class="submit-style-post"> {{ form_post.submit_post }} </span>
 
         </form>
 
@@ -61,6 +61,34 @@
                     {% if post.media %}
                     {{ show_post_media(post, 'timeline-picture') }}
                     {% endif %}
+
+                    <div class="comment-field">
+                        {% for comment in all_comments %}
+                            {% if comment.post_id == post.id %}
+
+                                {% with commenter = authors.query.get(comment.user_id) %}
+
+                                <a href="{{ url_for('people', filename='%s' % commenter.username) }}" class="comment-author-link"> {{ commenter.name_first }} {{ commenter.name_last }}</a>
+                                <span class="comment-individual"> {{ comment.text }} </span>
+                                <br>
+
+                                {% endwith %}
+
+                            {% endif %}
+                        {% endfor %}
+                        <br>
+                        <form method="POST">
+                            {{ form_comment.hidden_tag() }}
+                            {{ form_comment.comment_text(
+                            class_='comment-input',
+                            placeholder='დაწერე კომენტარი') }}
+
+                            {{ form_comment.post_id(
+                            class_='post-id-hidden',
+                            value="%s" % post.id) }}
+                            <span class="submit-style-comment"> {{ form_comment.submit_comment }}</span>
+                        </form>
+                    </div>
               </div>
           </div>
           {% endwith %}
