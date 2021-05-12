@@ -11,7 +11,10 @@ class PostsModel(db.Model):
     time = db.Column(db.DateTime)
     text = db.Column(db.String)
     media = db.Column(db.String)
+
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    comment = db.relationship('Comment', backref='PostsModel', uselist=False)
 
     def __init__(self, time, text=None, media=None, user_id=None):
         self.time = time
@@ -20,7 +23,7 @@ class PostsModel(db.Model):
         self.user_id = user_id
 
     def __repr__(self):
-        return f'ID: {self.id}. {self.media}'
+        return f'Post ID: {self.id}'
 
     @classmethod
     def add(cls, time, text, media, user_id):

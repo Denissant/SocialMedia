@@ -33,15 +33,21 @@ class User(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(16), unique=True, nullable=False, index=True)
+    password = db.Column(db.String(255))
+
     name_first = db.Column(db.String)
     name_last = db.Column(db.String)
     email = db.Column(db.String(64), unique=True, nullable=False, index=True)
     sex = db.Column(db.String)
     dob = db.Column(db.Date)
-    password = db.Column(db.String(255))
     age = db.Column(db.Integer)
     picture = db.Column(db.String)
+
+    #  One-To-Many Relationships
     post = db.relationship('PostsModel', backref='User', uselist=False)
+    comment = db.relationship('Comment', backref='User', uselist=False)
+
+    #  Many-To-Many Relationship
     roles = db.relationship('Role', secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))
 
