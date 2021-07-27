@@ -125,7 +125,14 @@ class FriendRequestForm(FlaskForm):
     form used to create FriendRequest objects
     """
 
-    sender_user = StringField('current_user_id')
-    receiving_user = StringField('receiving_user_id')
+    sender_user = StringField('current_user_id',
+                              validators=[
+                                  DataRequired(message="no current_user id")
+                              ])
+    receiving_user = StringField('receiving_user_id',
+                                 validators=[
+                                     DataRequired(message="no receiving_user id")
+                                 ])
 
     submit_friend_request = SubmitField('მეგობრის დამატება')
+    undo_friend_request = SubmitField('შემოთავაზების გაუქმება')

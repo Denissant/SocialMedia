@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request, flash
+from flask import Blueprint, render_template, redirect, request, flash, url_for
 from flask_login import current_user
 
 from app.database import db
@@ -11,7 +11,6 @@ from app.tools.format_dob import dob_string_to_datetime, calculate_age
 from app.tools.nav_link_list import generate_nav_links
 from app.tools.save_file import save_file
 
-
 profiles_blueprint = Blueprint('profiles',
                                __name__,
                                template_folder='templates',
@@ -20,7 +19,7 @@ profiles_blueprint = Blueprint('profiles',
 
 
 @profiles_blueprint.route('/')
-@profiles_blueprint.route('/<username>')
+@profiles_blueprint.route('/<username>', methods=['GET', 'POST'])
 def list_people(username=None):
     """
     shows the list of all registered profiles
@@ -28,19 +27,41 @@ def list_people(username=None):
     """
     if username:
         friend_request_form = FriendRequestForm()
-        user = User.find_by_username(username)
+        incoming_requests = FriendRequest.query.filter_by(recipient_user=current_user.id, active=1).all()
+        incoming_requests_ids = [r.id for r in incoming_requests]
+        incoming_requests_senders = [r.sender_user for r in incoming_requests]
+        incoming_requests = [incoming_requests_ids, incoming_requests_senders]
 
-        if request.method == 'POST':  # happens when sending a friend request
-            if friend_request_form.sender_user == current_user.id and \
-                        friend_request_form.receiving_user == user.id:
-                new_friend_request = FriendRequest(sender_user=friend_request_form.sender_user,
-                                                   recipient_user=friend_request_form.receiving_user)
-                db.session.add(new_friend_request)
-                db.session.commit()
+        user = User.find_by_username(username)
+        friend_asked = FriendRequest.query.filter_by(recipient_user=user.id,
+                                                     sender_user=current_user.id,
+                                                     active=1).first()
+
+        if request.method == 'POST':  # happens when sending a friend request or deleting an existing one
+            sender = int(friend_request_form.sender_user.data)
+            receiver = int(friend_request_form.receiving_user.data)
+
+            if sender == current_user.id and receiver == user.id:
+                if friend_request_form.submit_friend_request.data:
+                    if not friend_asked:
+                        new_friend_request = FriendRequest(sender_user=sender,
+                                                           recipient_user=receiver)
+                        db.session.add(new_friend_request)
+                        db.session.commit()
+                        return redirect(url_for('profiles.list_people', username=user.username))
+
+                elif friend_request_form.undo_friend_request.data:
+                    if friend_asked:
+                        db.session.delete(friend_asked)
+                        db.session.commit()
+                        return redirect(url_for('profiles.list_people', username=user.username))
+
 
         return render_template('people_profile.html', pages=generate_nav_links(),
                                user=user,
-                               friend_request_form=friend_request_form)
+                               friend_request_form=friend_request_form,
+                               friend_asked=friend_asked,
+                               incoming_requests=incoming_requests)
 
     else:
         people_list = User.query.all()
@@ -52,6 +73,11 @@ def profile():
     """
     shows the profile of a signed-in user, lets them edit their data or log out
     """
+    incoming_requests = FriendRequest.query.filter_by(recipient_user=current_user.id, active=1).all()
+    request_sender_usernames = []
+    if incoming_requests:
+        for r in incoming_requests:
+            request_sender_usernames.append(User.query.get(r.id).username)
 
     if request.method == 'POST':  # happens when editing own data
         form_update = UpdateForm()
@@ -78,10 +104,25 @@ def profile():
         else:
             flash('პაროლი არასწორია – მონაცემები არ განახლდა', 'alert-red')
 
-        return render_template('my_profile.html', pages=generate_nav_links(), form_update=UpdateForm())
+        return render_template('my_profile.html',
+                               pages=generate_nav_links(),
+                               form_update=UpdateForm(),
+                               incoming_requests=incoming_requests,
+                               request_sender_usernames=request_sender_usernames,
+                               zip=zip)
 
     else:
         if check_auth():
-            return render_template('my_profile.html', pages=generate_nav_links(), form_update=UpdateForm())
+            return render_template('my_profile.html',
+                                   pages=generate_nav_links(),
+                                   form_update=UpdateForm(),
+                                   incoming_requests=incoming_requests,
+                                   request_sender_usernames=request_sender_usernames,
+                                   zip=zip)
 
     return redirect('/')
+
+
+# @profiles_blueprint.route('/accept', methods=['POST'])
+# def accept_request():
+#

@@ -98,7 +98,15 @@ class FriendRequest(db.Model):
         self.send_date = send_date
 
     def __repr__(self):
-        return f'Post ID: {self.id}'
+        return f'FriendRequest ID: {self.id}'
+
+    def accept(self):
+        self.active = 0
+        db.session.commit()
+
+    def decline(self):
+        self.active = 0
+        db.session.commit()
 
 
 # catch an Exception and specify it instead of catching every exception

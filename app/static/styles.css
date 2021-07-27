@@ -308,7 +308,50 @@ form input[type="text"], form input[type="password"] {
 /*  End - Login, register and edit profile  */
 
 
+/* My Profile - received friend requests */
 
+#myprofile-requests {
+    position: absolute;
+    top: 12%;
+    left: 22%;
+    height: 15%;
+    width: 60%;
+    box-shadow: inset 0.15rem 0.15rem 0.70rem 0.1rem #bf9cc1;
+    border-radius: 4rem;
+    overflow-y: scroll;
+    transition: opacity;
+    transition-duration: 2s;
+}
+
+.myprofile__request {
+    padding-left: 10%;
+    color: #023e2e;
+    font-size: 1.1rem;
+    transition: opacity;
+    transition-duration: 3s;
+}
+
+.myprofile__request-link {
+    color: purple;
+    font-weight: bold;
+}
+
+.profile__accept-request, .profile__decline-request {
+    border-radius: 2rem;
+    text-align: center;
+    border: none;
+}
+
+.profile__accept-request {
+    margin-left: 3%;
+    color: white;
+    background-color: #83c7a1;
+}
+
+.profile__decline-request {
+    color: white;
+    background-color: #ba64b4;
+}
 
 
 /*  Logoff button  */

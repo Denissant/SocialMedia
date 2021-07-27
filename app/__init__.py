@@ -6,6 +6,7 @@ from flask_admin import Admin
 from app.admin.admin_index import MyAdminIndexView
 from app.database import db
 
+
 migrate = Migrate()
 admin = Admin()
 login_manager = LoginManager()
@@ -35,6 +36,9 @@ def create_app():
     app.register_blueprint(posts_blueprint, url_prefix="/posts")
     app.register_blueprint(profiles_blueprint, url_prefix="/people")
     app.register_blueprint(auth_blueprint, url_prefix="/")
+
+    from app.api import api
+    api.init_app(app)
 
     app.add_url_rule('/people/<path:filename>',
                      endpoint='people',
