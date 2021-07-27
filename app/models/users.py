@@ -1,3 +1,4 @@
+from datetime import date
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -81,6 +82,25 @@ class User(db.Model, UserMixin):
         return cls.query.filter_by(email=temp_email).first()
 
 
+class FriendRequest(db.Model):
+    ___tablename__ = 'friend_requests'
+
+    id = db.Column(db.Integer, primary_key=True)
+    send_date = db.Column(db.DateTime)
+    active = db.Column(db.Boolean)
+    recipient_user = db.Column(db.Integer, db.ForeignKey('users.id'))
+    sender_user = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def __init__(self, sender_user, recipient_user, active=1, send_date=date.today()):
+        self.recipient_user = recipient_user
+        self.sender_user = sender_user
+        self.active = active
+        self.send_date = send_date
+
+    def __repr__(self):
+        return f'Post ID: {self.id}'
+
+
 # catch an Exception and specify it instead of catching every exception
 @login_manager.user_loader
 def load_user(user_id):
@@ -88,3 +108,5 @@ def load_user(user_id):
         return User.query.get(user_id)
     except Exception as e:
         print(e)
+
+

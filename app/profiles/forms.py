@@ -118,3 +118,14 @@ class UpdateForm(FlaskForm):
                                  DataRequired(message="პაროლის შეყვანა აუცილებელია"),
                              ])
     submit_update = SubmitField('განახლება')
+
+
+class FriendRequestForm(FlaskForm):
+    """
+    form used to create FriendRequest objects
+    """
+
+    sender_user = StringField('current_user_id')
+    receiving_user = StringField('receiving_user_id')
+
+    submit_friend_request = SubmitField('მეგობრის დამატება')

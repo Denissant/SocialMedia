@@ -3,14 +3,33 @@
 {% from 'macros_images.html' import show_profile_picture %}
 
 
-<div class="jumbotron jumbotron-fluid" style="background-color: white">
-  <div class="container">
-    <h1 class="display-4">{{ user.name_first }} {{ user.name_last}} {{ show_profile_picture(user, 'myprofile-profilepicture') }}</h1>
-    <p class="lead">მომხმარებლის სახელი: {{ user.username }} </p>
-    <p class="lead">ელფოსტა: {{ user.email }} </p>
-    <p class="lead">დაბადების თარიღი: {{ user.dob }}</p>
-    <p class="lead">ასაკი: {{ user.age }} </p>
-    <p class="lead">სქესი: {{ user.sex }}</p>  </div>
-</div>
+    <div class="profile-container">
+
+        <div class="profile-left-column">
+            <h1 class="profile__title"> {{ user.name_first }} {{ user.name_last}} </h1>
+            <p class="profile__details"> მომხმარებლის სახელი: {{ user.username }} </p>
+            <p class="profile__details"> ელფოსტა: {{ user.email }} </p>
+            <p class="profile__details"> დაბადების თარიღი: {{ user.dob }} </p>
+            <p class="profile__details"> ასაკი: {{ user.age }} </p>
+            <p class="profile__details"> სქესი: {{ user.sex }} </p>
+        </div>
+
+
+        <div class="profile-right-column">
+            {{ show_profile_picture(user, 'profile__profile-picture') }}
+
+            {{ friend_request_form.hidden_tag() }}
+            {{ friend_request_form.sender_user(
+                    class_='hidden-form',
+                    value='%s' % current_user.id) }}
+
+            {{ friend_request_form.receiving_user(
+                    class_='hidden-form',
+                    value='%s' % user.id) }}
+
+            <span id="profile__friend-btn"> {{ friend_request_form.submit_friend_request }} </span>
+        </div>
+
+    </div>
 
 {% endblock %}

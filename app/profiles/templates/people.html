@@ -6,13 +6,13 @@
             <a href="{{p.username}}">
                 <div class="profile-list-one c-4">
                     <table style="flex-direction: row">
-                    <td>
-                        <tr> {{ show_profile_picture(p, 'profile-list-image') }} </tr>
-                    </td>
-                    <td>
-                        <tr><span class="profile-list-name"> {{ p.name_first }} {{ p.name_last }}
-                        </span> </tr>
-                    </td>
+                    <tbody>
+                        <tr>
+                            <td> {{ show_profile_picture(p, 'profile-list-image') }}
+                                <span class="profile-list-name"> {{ p.name_first }} {{ p.name_last }}</span>
+                            </td>
+                        </tr>
+                    </tbody>
                     </table>
                 </div>
             </a>
