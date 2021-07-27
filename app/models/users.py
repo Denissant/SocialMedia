@@ -1,5 +1,5 @@
 from datetime import date
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import db
@@ -10,6 +10,12 @@ from app.tools.format_dob import calculate_age
 roles_users = db.Table('roles_users',
                        db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
                        db.Column('role_id', db.Integer(), db.ForeignKey('roles.id')))
+
+
+friendships = db.Table('friendships',
+                       db.Column('id', db.Integer, primary_key=True),
+                       db.Column('user_id_one', db.Integer(), db.ForeignKey('users.id')),
+                       db.Column('user_id_two', db.Integer(), db.ForeignKey('users.id')))
 
 
 class Role(db.Model):
@@ -52,6 +58,11 @@ class User(db.Model, UserMixin):
     roles = db.relationship('Role', secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))
 
+    # One to one Relationship
+    friends = db.relationship('User', secondary=friendships,
+                              primaryjoin=id == friendships.c.user_id_one,
+                              secondaryjoin=id == friendships.c.user_id_two)
+
     def __init__(self, username, name_first, name_last, email, dob, sex, password, role_id, age=None, picture=None):
         self.username = username
         self.name_first = name_first
@@ -73,6 +84,13 @@ class User(db.Model, UserMixin):
     def has_role(self, target_role):
         return target_role in (role.name for role in self.roles)
 
+    def is_friend(self, target_user_id):
+        print(target_user_id)
+        print('viewing profile: ', User.query.get(target_user_id).username)
+        # print('my friends:', self.friends[0])
+        return target_user_id in (user.id for user in self.friends)
+
+
     @classmethod
     def find_by_username(cls, temp_username):
         return cls.query.filter_by(username=temp_username).first()
@@ -80,6 +98,9 @@ class User(db.Model, UserMixin):
     @classmethod
     def find_by_email(cls, temp_email):
         return cls.query.filter_by(email=temp_email).first()
+
+    def _get_current_object(self):
+        return current_user
 
 
 class FriendRequest(db.Model):
@@ -102,6 +123,9 @@ class FriendRequest(db.Model):
 
     def accept(self):
         self.active = 0
+        current_user.friends.append(User.query.get(self.sender_user))
+        User.query.get(self.sender_user).friends.append(current_user)
+
         db.session.commit()
 
     def decline(self):

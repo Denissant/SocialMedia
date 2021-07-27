@@ -1,8 +1,9 @@
 // connect to API to accept or decline friend requests
 
+// add Friend
 function answerFriendRequest(answer, friend_request, user, element_id) {
     console.log('running fr answer')
-    fetch('/api/friend', {
+    fetch('/api/friendrequest', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -26,6 +27,27 @@ function answerFriendRequest(answer, friend_request, user, element_id) {
                     requests_div.style.opacity = 0
                 }
             }
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+}
+
+
+function deleteFriend(user_id, target_user) {
+    fetch('/api/deletefriend', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user_id: user_id,
+            target_user: target_user,
+        })
+    }).then(response => response.json())
+        .then(data => {
+            console.log(data)
         })
         .catch((error) => {
             console.log(error)

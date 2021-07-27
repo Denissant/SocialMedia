@@ -18,9 +18,11 @@
         <div class="profile-right-column">
             {{ show_profile_picture(user, 'profile__profile-picture') }}
 
-            {# if a friend request is not yet sent #}
-                <form method="POST">
+            {# if current_user is logged in, show buttons for adding/removing friend, sending a friend request etc #}
+            {% if current_user.is_authenticated and current_user.id != user.id %}
 
+
+                <form method="POST">
                 {{ friend_request_form.hidden_tag() }}
                 {{ friend_request_form.sender_user(
                         class_='hidden-form',
@@ -30,27 +32,49 @@
                         class_='hidden-form',
                         value='%s' % user.id) }}
 
+                {# check if user is already friend #}
+                {% if current_user.is_friend(user.id) %}
+                    <div class="profile__friend-double">
+                        <span id="profile__request-done"> მეგობარი ✓ </span>
+
+                        <button class="profile__request-deny"
+                            onclick="deleteFriend(
+                                    {{ current_user.id }},
+                                    {{ user.id }})">
+
+                            მეგობრის წაშლა
+                        </button>
+                    </div>
+
                 {# check if the owner of the currently viewed profile has their id in current_user's incoming requests #}
-                {% if user.id in incoming_requests[1] %}
+                {% elif user.id in incoming_requests[1] %}
 
-                <div class="profile__friend-double">
-                    <button class="profile__request-agree"
-                            onclick="answerFriendRequest(1, {{ incoming_requests[0][incoming_requests[1].index(user.id)] }},
-                                            {{ current_user.id }})">
-                        თანხმობა მეგობრობაზე
-                    </button>
+                    <div class="profile__friend-double">
+                        <button class="profile__request-agree"
+                                onclick="answerFriendRequest(
+                                                1,
+                                                {{ incoming_requests[0][incoming_requests[1].index(user.id)] }},
+                                                {{ current_user.id }})">
+                            თანხმობა მეგობრობაზე
+                        </button>
 
-                    <button class="profile__request-deny"
-                            onclick="answerFriendRequest(0, {{ incoming_requests[0][incoming_requests[1].index(user.id)] }},
-                                            {{ current_user.id }})">
-                        უარის თქმა
-                    </button>
-                </div>
+                        <button class="profile__request-deny"
+                                onclick="answerFriendRequest(
+                                                0,
+                                                {{ incoming_requests[0][incoming_requests[1].index(user.id)] }},
+                                                {{ current_user.id }})">
+                            უარის თქმა
+                        </button>
+                    </div>
 
+
+                {# if a friend request is not yet sent #}
                 {% elif not friend_asked %}
 
                     {{ friend_request_form.submit_friend_request }}
 
+
+                {# if a friend request is already sent #}
                 {% else %}
                 <div class="profile__friend-double">
                     <span id="profile__request-done"> შემოთავაზება გაგზავნილია </span>
@@ -62,9 +86,8 @@
 
                 </form>
 
-            {# if a friend request is already sent #}
 
-
+            {% endif %}
 
         </div>
 

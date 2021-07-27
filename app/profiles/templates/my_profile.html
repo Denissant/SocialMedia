@@ -20,13 +20,17 @@
                             </a>
                             შემოგთავაზა მეგობრობა
                             <button class="profile__accept-request"
-                                    onclick="answerFriendRequest(1, {{ request.id }},
+                                    onclick="answerFriendRequest(
+                                            1,
+                                            {{ request.id }},
                                             {{ current_user.id }},
                                             {{ loop.index }})">
                                 მიღება
                             </button>
                             <button class="profile__decline-request"
-                                    onclick="answerFriendRequest(0, {{ request.id }},
+                                    onclick="answerFriendRequest(
+                                            0,
+                                            {{ request.id }},
                                             {{ current_user.id }},
                                             {{ loop.index }})">
                                 გაუქმება

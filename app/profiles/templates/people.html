@@ -3,7 +3,14 @@
 {% from 'macros_images.html' import show_profile_picture %}
         <div class="profile-list-all c-8">
         {% for p in people_list %}
-            <a href="{{p.username}}">
+
+
+            {% if current_user.is_authenticated and p.id == current_user.id %}
+                <a href="{{ url_for('profiles.profile') }}">
+            {% else %}
+                <a href="{{ url_for('profiles.list_people', username=p.username) }}">
+            {% endif %}
+
                 <div class="profile-list-one c-4">
                     <table style="flex-direction: row">
                     <tbody>

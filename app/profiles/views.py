@@ -26,36 +26,45 @@ def list_people(username=None):
     if a username is specified, shows read-only data of a profile linked to the username
     """
     if username:
-        friend_request_form = FriendRequestForm()
-        incoming_requests = FriendRequest.query.filter_by(recipient_user=current_user.id, active=1).all()
-        incoming_requests_ids = [r.id for r in incoming_requests]
-        incoming_requests_senders = [r.sender_user for r in incoming_requests]
-        incoming_requests = [incoming_requests_ids, incoming_requests_senders]
-
         user = User.find_by_username(username)
-        friend_asked = FriendRequest.query.filter_by(recipient_user=user.id,
-                                                     sender_user=current_user.id,
-                                                     active=1).first()
+        friend_request_form = FriendRequestForm()
 
-        if request.method == 'POST':  # happens when sending a friend request or deleting an existing one
-            sender = int(friend_request_form.sender_user.data)
-            receiver = int(friend_request_form.receiving_user.data)
+        # if current_user is logged in
+        if current_user.is_authenticated:
+            # if current_user is trying to view their profile as everyone else's profile, prevent that
+            if user.id == current_user.id:
+                return redirect(url_for('profiles.profile'))
 
-            if sender == current_user.id and receiver == user.id:
-                if friend_request_form.submit_friend_request.data:
-                    if not friend_asked:
-                        new_friend_request = FriendRequest(sender_user=sender,
-                                                           recipient_user=receiver)
-                        db.session.add(new_friend_request)
-                        db.session.commit()
-                        return redirect(url_for('profiles.list_people', username=user.username))
+            incoming_requests = FriendRequest.query.filter_by(recipient_user=current_user.id, active=1).all()
+            incoming_requests_ids = [r.id for r in incoming_requests]
+            incoming_requests_senders = [r.sender_user for r in incoming_requests]
+            incoming_requests = [incoming_requests_ids, incoming_requests_senders]
 
-                elif friend_request_form.undo_friend_request.data:
-                    if friend_asked:
-                        db.session.delete(friend_asked)
-                        db.session.commit()
-                        return redirect(url_for('profiles.list_people', username=user.username))
+            friend_asked = FriendRequest.query.filter_by(recipient_user=user.id,
+                                                         sender_user=current_user.id,
+                                                         active=1).first()
 
+            if request.method == 'POST':  # happens when sending a friend request or deleting an existing one
+                sender = int(friend_request_form.sender_user.data)
+                receiver = int(friend_request_form.receiving_user.data)
+
+                if sender == current_user.id and receiver == user.id:
+                    if friend_request_form.submit_friend_request.data:
+                        if not friend_asked:
+                            new_friend_request = FriendRequest(sender_user=sender,
+                                                               recipient_user=receiver)
+                            db.session.add(new_friend_request)
+                            db.session.commit()
+                            return redirect(url_for('profiles.list_people', username=user.username))
+
+                    elif friend_request_form.undo_friend_request.data:
+                        if friend_asked:
+                            db.session.delete(friend_asked)
+                            db.session.commit()
+                            return redirect(url_for('profiles.list_people', username=user.username))
+        else:
+            friend_asked = None
+            incoming_requests = None
 
         return render_template('people_profile.html', pages=generate_nav_links(),
                                user=user,
@@ -77,7 +86,7 @@ def profile():
     request_sender_usernames = []
     if incoming_requests:
         for r in incoming_requests:
-            request_sender_usernames.append(User.query.get(r.id).username)
+            request_sender_usernames.append(User.query.get(r.sender_user).username)
 
     if request.method == 'POST':  # happens when editing own data
         form_update = UpdateForm()
@@ -121,8 +130,3 @@ def profile():
                                    zip=zip)
 
     return redirect('/')
-
-
-# @profiles_blueprint.route('/accept', methods=['POST'])
-# def accept_request():
-#

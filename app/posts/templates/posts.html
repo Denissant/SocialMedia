@@ -48,7 +48,14 @@
           <div class="c-6 timeline">
               <div class="timeline-post">
                     <p class="post-date">{{ post.time.year, post.time.month, post.time.day }} </p>
-                    <a href="{{ url_for('people', filename='%s' % author.username) }}" class="post-author-link">
+
+                    {# link to user profile (editing mode) if post author is current_user #}
+                    {% if current_user.is_authenticated and author.id == current_user.id %}
+                        <a href="{{ url_for('profiles.profile') }}" class="post-author-link">
+                    {% else %}
+                        <a href="{{ url_for('profiles.list_people', username=author.username) }}" class="post-author-link">
+                    {% endif %}
+
                         {{ show_profile_picture(author, 'author-picture') }} {{ author.name_first }} {{ author.name_last }}
                     </a>
 
