@@ -3,7 +3,7 @@ from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
 
 from app import admin, db
-from app.models import User, PostsModel
+from app.models import User, PostsModel, Comment, Role, FriendRequest, friendships
 from app.tools.check_auth import check_auth
 
 
@@ -29,4 +29,6 @@ class ModModelView(ModelView):
 
 
 admin.add_view(AdminModelView(User, db.session))
-admin.add_view(ModModelView(PostsModel, db.session))
+admin.add_view(AdminModelView(PostsModel, db.session))
+admin.add_view(AdminModelView(Comment, db.session))
+admin.add_view(AdminModelView(FriendRequest, db.session))
