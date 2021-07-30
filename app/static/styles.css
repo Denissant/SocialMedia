@@ -393,6 +393,7 @@ form input[type="text"], form input[type="password"] {
 
 .profile-list-all {
     margin: auto;
+    padding-left: 2%;
     padding-top: 5%;
     flex-direction: row;
 }
@@ -578,7 +579,7 @@ form input[type="text"], form input[type="password"] {
 }
 
 .submit-style-post * {
-    width: 49.35%;
+    width: 49%;
     height: 2.5rem;
     font-size: 1.3rem;
 }
@@ -651,6 +652,7 @@ form input[type="text"], form input[type="password"] {
     background-color: white;
     font-size: 1.1rem;
     padding: 2rem;
+    word-wrap: break-word;
 }
 
 .post-date {
@@ -877,4 +879,19 @@ form input[type="text"], form input[type="password"] {
         font-family: "BPG Nino Elite Exp Caps", sans-serif;
         margin-bottom: 5%;
     }
+}
+
+
+.profile-list-buttons {
+    position: absolute;
+    top: 15%;
+}
+
+.profile-list-buttons-single {
+    font-size: 1.1rem;
+}
+
+.no-data-text {
+    margin-left: 5%;
+    font-family: "BPG Nino Elite Exp Caps", sans-serif;
 }

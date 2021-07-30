@@ -1,6 +1,37 @@
-body {
-    background-color: white;
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .profile-container {
+        flex-direction: column;
+        align-items: center;
+    }
 }
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .profile-container {
+        flex-direction: row-reverse;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+
+}
+
+
+/*body {*/
+/*    background-color: white;*/
+/*}*/
 
 .profile-container {
     display: flex;
@@ -22,7 +53,6 @@ body {
     flex-direction: column;
     align-items: center;
     float: right;
-    align-self: flex-end;
     width: 28%;
 }
 
@@ -37,7 +67,7 @@ body {
 
 
 .profile__title {
-    font-size: 3.6rem;
+    font-size: clamp(1.5rem, 5vw, 3.6rem);
     margin: 0 0 1rem 0;
     font-weight: lighter;
     font-family: "Segoe UI", sans-serif;
@@ -45,7 +75,7 @@ body {
 
 
 .profile__details {
-    font-size: 1.35rem;
+    font-size: clamp(0.7rem, 1.7vw, 1.35rem);
     margin: 0.4rem 0;
     font-weight: lighter;
     font-family: "Segoe UI", sans-serif;

@@ -103,7 +103,7 @@
 
 
   {% else %}
-      <h1> ჯერ არავის დაუპოსტავს </h1>
+      <h1 class="no-data-text"> ჯერ არავის დაუპოსტავს </h1>
   {% endif %}
 
       </div>
@@ -111,6 +111,79 @@
 
 
   <div class="tab-pane fade" id="v-pills-change" role="tabpanel" aria-labelledby="v-pills-change-tab">
+
+
+
+
+
+      {% for post in all_posts %}
+
+          {% with author = authors.query.get(post.user_id) %}
+
+          {# display post only if the author is current_user's friend #}
+              {% if current_user.is_friend(author.id) %}
+
+              <div class="c-6 timeline">
+                  <div class="timeline-post">
+                        <p class="post-date">{{ post.time.year, post.time.month, post.time.day }} </p>
+
+                        {# link to user profile (editing mode) if post author is current_user #}
+                        {% if current_user.is_authenticated and author.id == current_user.id %}
+                            <a href="{{ url_for('profiles.profile') }}" class="post-author-link">
+                        {% else %}
+                            <a href="{{ url_for('profiles.list_people', username=author.username) }}" class="post-author-link">
+                        {% endif %}
+
+                            {{ show_profile_picture(author, 'author-picture') }} {{ author.name_first }} {{ author.name_last }}
+                        </a>
+
+                        {% if post.text %}
+                        <p class="post-text"> {{ post.text }} </p>
+                            {% else %}
+                            <br><br><br>
+                        {% endif %}
+
+                        {% if post.media %}
+                        {{ show_post_media(post, 'timeline-picture') }}
+                        {% endif %}
+
+                        <div class="comment-field">
+                            {% for comment in all_comments %}
+                                {% if comment.post_id == post.id %}
+
+                                    {% with commenter = authors.query.get(comment.user_id) %}
+
+                                    <a href="{{ url_for('people', filename='%s' % commenter.username) }}" class="comment-author-link"> {{ commenter.name_first }} {{ commenter.name_last }}</a>
+                                    <span class="comment-individual"> {{ comment.text }} </span>
+                                    <br>
+
+                                    {% endwith %}
+
+                                {% endif %}
+                            {% endfor %}
+                            <br>
+                            <form method="POST">
+                                {{ form_comment.hidden_tag() }}
+                                {{ form_comment.comment_text(
+                                class_='comment-input',
+                                placeholder='დაწერე კომენტარი') }}
+
+                                {{ form_comment.post_id(
+                                class_='post-id-hidden',
+                                value="%s" % post.id) }}
+                                <span class="submit-style-comment"> {{ form_comment.submit_comment }}</span>
+                            </form>
+                        </div>
+                  </div>
+              </div>
+              {% endif %}
+          {% endwith %}
+      {% endfor %}
+
+
+
+
+
   </div>
 </div>
 

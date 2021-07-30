@@ -5,16 +5,6 @@
 
     <div class="profile-container">
 
-        <div class="profile-left-column">
-            <h1 class="profile__title"> {{ user.name_first }} {{ user.name_last}} </h1>
-            <p class="profile__details"> მომხმარებლის სახელი: {{ user.username }} </p>
-            <p class="profile__details"> ელფოსტა: {{ user.email }} </p>
-            <p class="profile__details"> დაბადების თარიღი: {{ user.dob }} </p>
-            <p class="profile__details"> ასაკი: {{ user.age }} </p>
-            <p class="profile__details"> სქესი: {{ user.sex }} </p>
-        </div>
-
-
         <div class="profile-right-column">
             {{ show_profile_picture(user, 'profile__profile-picture') }}
 
@@ -89,6 +79,16 @@
 
             {% endif %}
 
+        </div>
+
+
+        <div class="profile-left-column">
+            <h1 class="profile__title"> {{ user.name_first }} {{ user.name_last}} </h1>
+            <p class="profile__details"> მომხმარებლის სახელი: {{ user.username }} </p>
+            <p class="profile__details"> ელფოსტა: {{ user.email }} </p>
+            <p class="profile__details"> დაბადების თარიღი: {{ user.dob }} </p>
+            <p class="profile__details"> ასაკი: {{ user.age }} </p>
+            <p class="profile__details"> სქესი: {{ user.sex }} </p>
         </div>
 
     </div>

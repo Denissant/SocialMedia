@@ -1,29 +1,86 @@
 {% extends "base.html" %}
 {% block content %}
 {% from 'macros_images.html' import show_profile_picture %}
+
+  <div class="c-3">
+    <div class="nav flex-column nav-pills nav-left-tabs profile-list-buttons" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <a class="nav-link  active profile-list-buttons-single" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"> ყველა მომხმარებელი </a>
+      {% if current_user.is_authenticated %}
+      <a class="nav-link tab-passive profile-list-buttons-single" id="v-pills-change-tab" data-toggle="pill" href="#v-pills-change" role="tab" aria-controls="v-pills-profile" aria-selected="false"> ჩემი მეგობრები </a>
+      {% endif %}
+    </div>
+  </div>
+
+
+
+<div class="tab-content" id="v-pills-tabContent">
+<div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" style="flex-direction: column-reverse">
+
         <div class="profile-list-all c-8">
-        {% for p in people_list %}
+            {% for p in people_list %}
 
 
-            {% if current_user.is_authenticated and p.id == current_user.id %}
-                <a href="{{ url_for('profiles.profile') }}">
-            {% else %}
-                <a href="{{ url_for('profiles.list_people', username=p.username) }}">
-            {% endif %}
+                {% if current_user.is_authenticated and p.id == current_user.id %}
+                    <a href="{{ url_for('profiles.profile') }}">
+                {% else %}
+                    <a href="{{ url_for('profiles.list_people', username=p.username) }}">
+                {% endif %}
 
-                <div class="profile-list-one c-4">
-                    <table style="flex-direction: row">
-                    <tbody>
-                        <tr>
-                            <td> {{ show_profile_picture(p, 'profile-list-image') }}
-                                <span class="profile-list-name"> {{ p.name_first }} {{ p.name_last }}</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                    </table>
-                </div>
-            </a>
-        {% endfor %}
+                    <div class="profile-list-one c-4">
+                        <table style="flex-direction: row">
+                        <tbody>
+                            <tr>
+                                <td> {{ show_profile_picture(p, 'profile-list-image') }}
+                                    <span class="profile-list-name"> {{ p.name_first }} {{ p.name_last }}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                </a>
+            {% endfor %}
         </div>
+
+    </div>
+
+  {% if current_user.is_authenticated %}
+  <div class="tab-pane fade" id="v-pills-change" role="tabpanel" aria-labelledby="v-pills-change-tab">
+
+
+        <div class="profile-list-all c-8">
+            {% if current_user.friends %}
+                {% for p in people_list %}
+                    {# only display friends #}
+                    {% if current_user.is_friend(p.id) %}
+                        {% if current_user.is_authenticated and p.id == current_user.id %}
+                            <a href="{{ url_for('profiles.profile') }}">
+                        {% else %}
+                            <a href="{{ url_for('profiles.list_people', username=p.username) }}">
+                        {% endif %}
+
+                            <div class="profile-list-one c-4">
+                                <table style="flex-direction: row">
+                                <tbody>
+                                    <tr>
+                                        <td> {{ show_profile_picture(p, 'profile-list-image') }}
+                                            <span class="profile-list-name"> {{ p.name_first }} {{ p.name_last }}</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                </table>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <h2 class="no-data-text"> მეგობრების სია ცარიელია </h2>
+            {% endif %}
+        </div>
+
+    </div>
+  {% endif %}
+
+</div>
+
 
 {% endblock %}
