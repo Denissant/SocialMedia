@@ -121,7 +121,7 @@
           {% with author = authors.query.get(post.user_id) %}
 
           {# display post only if the author is current_user's friend #}
-              {% if current_user.is_friend(author.id) %}
+              {% if current_user.is_friend(author.id) or current_user.id == author.id %}
 
               <div class="c-6 timeline">
                   <div class="timeline-post">
